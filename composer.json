@@ -20,5 +20,10 @@
     ],
     "require": {
         "php": "^8.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
