@@ -20,6 +20,44 @@ $ composer require assegaiphp/attributes
 
 ## Usage
 
+Use the `Injectable` attribute to mark a class as injectable.
+
 ```php
+<?php
+
 use Assegai\Attributes\Injectable;
+
+#[Injectable]
+class MyService {
+  public function __construct() {
+    // Do something
+  }
+}
+```
+
+Then you can use your service in your application like this:
+
+```php
+<?php
+
+use Assegai\Attributes\Controller;
+use Assegai\Core\Attributes\Http\Get;
+use Assegai\Core\Attributes\Param;
+
+#[Controller('my-controller')]
+class MyController
+{
+    public function __construct(protected MyService $myService) {
+    }
+    
+    #[Get]
+    public function findAll(): array {
+       return $this->myService->findAll();
+    }
+    
+    #[Get(':id')]
+    public function findById(#[Param('id')] int $id) {
+      return $this->myService->findById($id);
+    }
+}
 ```
