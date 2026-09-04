@@ -106,3 +106,7 @@ final class Param extends ParamAttribute
 ## More Information
 
 For the full framework guide, visit [assegaiphp.com/guide](https://assegaiphp.com/guide).
+
+## License
+
+This package is released under the [MIT license](./LICENSE).
