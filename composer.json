@@ -19,11 +19,15 @@
         }
     ],
     "require": {
-        "php": "^8.3"
+        "php": "^8.4"
     },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "analyze": "vendor/bin/phpstan analyse src --level 8",
+        "test": "vendor/bin/pest"
     }
 }

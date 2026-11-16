@@ -2,62 +2,111 @@
     <a href="https://assegaiphp.com/" target="blank"><img src="https://assegaiphp.com/images/logos/logo-cropped.png" width="200" alt="Assegai Logo"></a>
 </div>
 
-<p style="text-align: center">A progressive <a href="https://php.net">PHP</a> framework for building effecient and scalable server-side applications.</p>
+<p style="text-align: center">Core PHP attributes for AssegaiPHP applications.</p>
 
 ## Description
 
-The attributes library is a collection of common PHP 8 attributes that can be used in your Assegai application.
+`assegaiphp/attributes` defines the framework-level metadata attributes shared across AssegaiPHP packages. It is intentionally small and dependency-light: the package only requires PHP 8.4 or newer.
+
+This package is part of the AssegaiPHP 0.9 release line and is consumed by packages such as `assegaiphp/core`, `assegaiphp/common`, and `assegaiphp/auth` through the `^1.0` attributes line.
 
 ## Installation
 
-You can install the package via composer:
+Install the package with Composer:
 
 ```bash
-$ composer require assegaiphp/attributes
+composer require assegaiphp/attributes:^1.0
 ```
 
-* To check out the [guide](https://assegaiphp.com/guide), visit [assegaiphp.com](https://assegaiphp.com). 📚
+## Available Attributes
 
-## Usage
+### `Injectable`
 
-Use the `Injectable` attribute to mark a class as injectable.
+Use `Injectable` to mark a class as available to the dependency injector.
 
 ```php
 <?php
 
+use Assegai\Attributes\Enumerations\Scope;
 use Assegai\Attributes\Injectable;
+use Assegai\Attributes\ScopeOptions;
 
-#[Injectable]
-class MyService {
-  public function __construct() {
-    // Do something
-  }
+#[Injectable(new ScopeOptions(scope: Scope::DEFAULT, durable: true))]
+class HeroService
+{
 }
 ```
 
-Then you can use your service in your application like this:
+### `Controller`
+
+Use `Controller` to mark a class as an HTTP controller. The optional `host` argument accepts a single host or a list of hosts.
 
 ```php
 <?php
 
 use Assegai\Attributes\Controller;
-use Assegai\Core\Attributes\Http\Get;
-use Assegai\Core\Attributes\Param;
 
-#[Controller('my-controller')]
-class MyController
+#[Controller(path: 'heroes')]
+class HeroesController
 {
-    public function __construct(protected MyService $myService) {
-    }
-    
-    #[Get]
-    public function findAll(): array {
-       return $this->myService->findAll();
-    }
-    
-    #[Get(':id')]
-    public function findById(#[Param('id')] int $id) {
-      return $this->myService->findById($id);
-    }
 }
 ```
+
+### `Component`
+
+Use `Component` to describe a server-rendered component, including its selector, template, styles, and providers.
+
+```php
+<?php
+
+use Assegai\Attributes\Component;
+
+#[Component(
+  selector: 'app-hero-card',
+  templateUrl: './HeroCardComponent.twig',
+  styleUrls: ['./HeroCardComponent.css'],
+)]
+class HeroCardComponent
+{
+}
+```
+
+### `OnException`
+
+Use `OnException` to mark a class or method as an exception handler for one or more exception types.
+
+```php
+<?php
+
+use Assegai\Attributes\OnException;
+use RuntimeException;
+
+#[OnException(RuntimeException::class)]
+class RuntimeExceptionHandler
+{
+}
+```
+
+### `ParamAttribute`
+
+`ParamAttribute` is the base class for parameter-oriented attributes. It stores the attribute value supplied by concrete parameter attributes.
+
+```php
+<?php
+
+use Assegai\Attributes\ParamAttribute;
+use Attribute;
+
+#[Attribute(Attribute::TARGET_PARAMETER)]
+final class Param extends ParamAttribute
+{
+}
+```
+
+## More Information
+
+For the full framework guide, visit [assegaiphp.com/guide](https://assegaiphp.com/guide).
+
+## License
+
+This package is released under the [MIT license](./LICENSE).

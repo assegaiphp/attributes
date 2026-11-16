@@ -15,9 +15,9 @@ use Throwable;
 readonly class OnException
 {
   /**
-   * @param string|array|Throwable $filterClassNames The class names of the exceptions that this handler should handle.
-   * If an array is provided, the handler will handle any of the exceptions in the array. If a single class name is
-   * provided, the handler will only handle that exception.
+   * @param class-string<Throwable>|Throwable|array<int, class-string<Throwable>|Throwable> $filterClassNames The class names
+   * of the exceptions that this handler should handle. If an array is provided, the handler will handle any of the
+   * exceptions in the array. If a single class name is provided, the handler will only handle that exception.
    */
   public function __construct(public string|array|Throwable $filterClassNames)
   {
